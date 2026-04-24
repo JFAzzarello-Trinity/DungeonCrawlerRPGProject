@@ -23,7 +23,7 @@ public class Item {
     }
 
     public void setItemType(String itemType) {
-        this.itemType = itemType;
+        if(itemType.equals("WEAPON") || itemType.equals("ARMOR") || itemType.equals("POTION")){this.itemType = itemType;}
     }
 
     public int getValue() {
@@ -31,7 +31,7 @@ public class Item {
     }
 
     public void setValue(int value) {
-        this.value = value;
+        if(value > 0){this.value = value;}
     }
 
     public String getDescription() {

@@ -33,4 +33,16 @@ public class Monster extends Character {
            "| Reward XP : " + rewardXP + "\n" +
            "+-----------------------------+";
     }
+    @Override
+    public void attack(Character target){
+        int damage = 0;
+        if(target.getDefense() >= getAttackPower()){
+            damage = 1;
+            target.setHealth(target.getHealth() - damage);
+        }else{
+            damage = getAttackPower() - target.getDefense();
+            target.setHealth(target.getHealth() - damage);
+        }
+        System.out.println("The " + getMonsterType() + " whacks you on the head!");
+    }
 }

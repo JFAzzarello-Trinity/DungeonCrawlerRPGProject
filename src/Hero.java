@@ -15,7 +15,7 @@ public class Hero extends Character {
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        if(level > 0 && level < 100){this.level = level;}
     }
 
     public int getExperiencePoints() {
@@ -23,7 +23,7 @@ public class Hero extends Character {
     }
 
     public void setExperiencePoints(int experiencePoints) {
-        this.experiencePoints = experiencePoints;
+        if(experiencePoints >= 0){this.experiencePoints = experiencePoints;}
     }
 
     public String getHeroClass() {
@@ -33,6 +33,11 @@ public class Hero extends Character {
     public void setHeroClass(String heroClass) {
         this.heroClass = heroClass;
     }
+
+    public void gainExperience(int xp){
+        if(xp >= 0){setExperiencePoints(xp + this.experiencePoints);}
+    }
+
     @Override
     public String toString() {
         String hpBar = "";
@@ -51,5 +56,18 @@ public class Hero extends Character {
            "| ATK : " + getAttackPower() + "  DEF : " + getDefense() + "\n" +
            "| XP : " + experiencePoints + "\n" +
            "+==============================================+";
+    }
+
+    @Override
+    public void attack(Character target){
+        int damage = 0;
+        if(target.getDefense() >= getAttackPower()){
+            damage = 1;
+            target.setHealth(target.getHealth() - damage);
+        }else{
+            damage = getAttackPower() - target.getDefense();
+            target.setHealth(target.getHealth() - damage);
+        }
+        System.out.println("The monster took " + damage + " damage!");
     }
 }

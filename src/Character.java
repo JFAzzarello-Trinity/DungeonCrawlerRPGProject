@@ -1,4 +1,4 @@
-public class Character {
+public abstract class Character {
     private String name;
     private int health;
     private int maxHealth;
@@ -26,7 +26,15 @@ public class Character {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        if(health < 0){
+            this.health = 0;
+        }
+        else if(health > this.getMaxHealth()){
+            this.health = maxHealth;
+        }
+        else{
+            this.health = health;
+        }
     }
 
     public int getMaxHealth() {
@@ -42,7 +50,7 @@ public class Character {
     }
 
     public void setAttackPower(int attackPower) {
-        this.attackPower = attackPower;
+        if(attackPower > 0){this.attackPower = attackPower;}
     }
 
     public int getDefense() {
@@ -50,6 +58,10 @@ public class Character {
     }
 
     public void setDefense(int defense) {
-        this.defense = defense;
+        if(defense >= 0){this.defense = defense;}
     }
+
+    public abstract String toString();
+
+    public abstract void attack(Character target);
 }

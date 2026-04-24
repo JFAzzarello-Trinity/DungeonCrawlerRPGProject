@@ -3,9 +3,9 @@ public class App {
         Hero hero = new Hero(15, "Warrior", 1, "Jorge", 85, 100, 20, 10);
         Monster monster = new Monster(10, "Goblin", "Greeb", 50, 50, 5, 10);
         Monster monster2 = new Monster(20, "Orc", "Grob", 80, 80, 15, 15);
-        Item item = new Item("Spear", "Weapon", 100, "A sharp blade for far-ranged combat.");
-        Item item2 = new Item("Health Potion", "Consumable", 50, "Restores 50 health points when consumed.");
-        Item item3 = new Item("Helmet", "Armor", 150, "Provides extra defense against attacks.");
+        Item item = new Item("Spear", "WEAPON", 100, "A sharp blade for far-ranged combat.");
+        Item item2 = new Item("Health Potion", "POTION", 50, "Restores 50 health points when consumed.");
+        Item item3 = new Item("Helmet", "ARMOR", 150, "Provides extra defense against attacks.");
         Room room = new Room("Dining Hall", "A candle-lit room with a long dining table and several chairs. The walls are adorned with faded tapestries depicting ancient battles.");
         room.addMonster(monster);
         room.addMonster(monster2);
