@@ -1,4 +1,4 @@
-public class Item {
+public class Item implements Comparable<Item>{
     private String name;
     private String itemType;
     private int value;
@@ -23,7 +23,7 @@ public class Item {
     }
 
     public void setItemType(String itemType) {
-        if(itemType.equals("WEAPON") || itemType.equals("ARMOR") || itemType.equals("POTION")){this.itemType = itemType;}
+        if(itemType.toUpperCase().equals("WEAPON") || itemType.toUpperCase().equals("ARMOR") || itemType.toUpperCase().equals("POTION")){this.itemType = itemType.toUpperCase();}
     }
 
     public int getValue() {
@@ -44,5 +44,14 @@ public class Item {
     @Override
     public String toString() {
         return "[" + itemType + "] " + name + " (Value: " + value + ")\n" + ">> " + description;
+    }
+
+    @Override
+    public int compareTo(Item other) {
+        return Integer.compare(this.value, other.value);
+    }
+
+    public void interact(Hero hero){
+        
     }
 }

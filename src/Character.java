@@ -28,6 +28,7 @@ public abstract class Character {
     public void setHealth(int health) {
         if(health < 0){
             this.health = 0;
+            System.out.println("[WARNING] Health cannot be negative. Value unchanged.");
         }
         else if(health > this.getMaxHealth()){
             this.health = maxHealth;
@@ -50,7 +51,10 @@ public abstract class Character {
     }
 
     public void setAttackPower(int attackPower) {
-        if(attackPower > 0){this.attackPower = attackPower;}
+        if(attackPower >= 0){
+            this.attackPower = attackPower;
+            System.out.println("[WARNING] Attack power must be greater than 0. Value unchanged.");
+        }
     }
 
     public int getDefense() {
