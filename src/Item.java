@@ -23,7 +23,11 @@ public class Item implements Comparable<Item>{
     }
 
     public void setItemType(String itemType) {
-        if(itemType.toUpperCase().equals("WEAPON") || itemType.toUpperCase().equals("ARMOR") || itemType.toUpperCase().equals("POTION")){this.itemType = itemType.toUpperCase();}
+        if (itemType.toUpperCase().equals("WEAPON") || itemType.toUpperCase().equals("ARMOR") || itemType.toUpperCase().equals("POTION")) {
+            this.itemType = itemType.toUpperCase();
+        } else {
+            System.out.println("[WARNING] Invalid item type. Must be WEAPON, ARMOR, or POTION. Value unchanged.");
+        }
     }
 
     public int getValue() {
@@ -31,7 +35,11 @@ public class Item implements Comparable<Item>{
     }
 
     public void setValue(int value) {
-        if(value > 0){this.value = value;}
+        if (value > 0) {
+            this.value = value;
+        } else {
+            System.out.println("[WARNING] Value must be greater than 0. Value unchanged.");
+        }
     }
 
     public String getDescription() {
@@ -49,9 +57,5 @@ public class Item implements Comparable<Item>{
     @Override
     public int compareTo(Item other) {
         return Integer.compare(this.value, other.value);
-    }
-
-    public void interact(Hero hero){
-        
     }
 }

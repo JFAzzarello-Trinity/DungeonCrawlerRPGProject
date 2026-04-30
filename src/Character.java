@@ -26,14 +26,12 @@ public abstract class Character {
     }
 
     public void setHealth(int health) {
-        if(health < 0){
+        if (health < 0) {
+            System.out.println("[WARNING] Health cannot be negative. Value set to 0.");
             this.health = 0;
-            System.out.println("[WARNING] Health cannot be negative. Value unchanged.");
-        }
-        else if(health > this.getMaxHealth()){
+        } else if (health > this.getMaxHealth()) {
             this.health = maxHealth;
-        }
-        else{
+        } else {
             this.health = health;
         }
     }
@@ -51,8 +49,9 @@ public abstract class Character {
     }
 
     public void setAttackPower(int attackPower) {
-        if(attackPower >= 0){
+        if(attackPower > 0){
             this.attackPower = attackPower;
+        } else {
             System.out.println("[WARNING] Attack power must be greater than 0. Value unchanged.");
         }
     }
@@ -62,7 +61,11 @@ public abstract class Character {
     }
 
     public void setDefense(int defense) {
-        if(defense >= 0){this.defense = defense;}
+        if (defense >= 0) {
+            this.defense = defense;
+        } else {
+            System.out.println("[WARNING] Defense cannot be negative. Value unchanged.");
+        }
     }
 
     public abstract String toString();

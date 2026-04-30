@@ -1,16 +1,24 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 public class Room implements Interactable{
     private String name;
     private String description;
     private ArrayList<Item> items;
     private ArrayList<Monster> monsters;
     private boolean visited;
+    // Queue ensures monsters fight in spawn order (FIFO)
+    private Queue<Monster> spawnQueue = new LinkedList<>();
     public Room(String name, String description) {
         this.name = name;
         this.description = description;
-        this.items = new ArrayList<Item>();
-        this.monsters = new ArrayList<Monster>();
+        this.items = new ArrayList<>();
+        this.monsters = new ArrayList<>();
         this.visited = false;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public void addItem(Item item) {
@@ -33,9 +41,12 @@ public class Room implements Interactable{
         return visited;
     }
 
-    public boolean setVisited(boolean visited) {
+    public void setVisited(boolean visited) {
         this.visited = visited;
-        return visited;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -68,6 +79,7 @@ public class Room implements Interactable{
            "# VISITED : " + visited + "\n" +
            "#============================================#";
     }  
+    @Override
     public void interact(Hero hero){
         this.visited = true;
         System.out.println(this);
@@ -79,5 +91,17 @@ public class Room implements Interactable{
         for (int i = 0; i < monsters.size(); i++) {
             monsters.get(i).attack(hero);
         }
+    }
+
+    public Monster spawnNextMonster(){
+        return spawnQueue.poll();
+    }
+
+    public void loadMonsters() {
+        spawnQueue.addAll(monsters);
+    }
+
+    public boolean hasMonsters() {
+        return !spawnQueue.isEmpty();
     }
 }

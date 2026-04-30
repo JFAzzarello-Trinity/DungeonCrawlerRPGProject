@@ -1,13 +1,16 @@
+
 public class Hero extends Character {
     private int level;
     private int experiencePoints;
     private String heroClass;
+    private Inventory<Item> inventory;
 
     public Hero(int experiencePoints, String heroClass, int level, String name, int health, int maxHealth, int attackPower, int defense) {
         super(name, health, maxHealth, attackPower, defense);
         this.experiencePoints = experiencePoints;
         this.heroClass = heroClass;
         this.level = level;
+        this.inventory = new Inventory<>();
     }
 
     public int getLevel() {
@@ -15,7 +18,11 @@ public class Hero extends Character {
     }
 
     public void setLevel(int level) {
-        if(level > 0 && level < 100){this.level = level;}
+        if (level >= 1 && level <= 99) {
+            this.level = level;
+        } else {
+            System.out.println("[WARNING] Level must be between 1 and 99. Value unchanged.");
+        }
     }
 
     public int getExperiencePoints() {
@@ -34,20 +41,28 @@ public class Hero extends Character {
         this.heroClass = heroClass;
     }
 
-    public void gainExperience(int xp){
-        if(xp >= 0){setExperiencePoints(xp + this.experiencePoints);}
+    public void gainExperience(int xp) {
+        if (xp >= 0) {
+            setExperiencePoints(xp + this.experiencePoints);
+        } else {
+            System.out.println("[WARNING] XP cannot be negative. Value unchanged.");
+        }
+    }
+
+    public Inventory<Item> getInventory() {
+        return inventory;
     }
 
     @Override
     public String toString() {
         String hpBar = "";
         for (int i = 0; i < 20; i++) {
-        if (i < (getHealth() * 20 / getMaxHealth())) {
-            hpBar += "█";
-        } else {
-            hpBar += "░";
+            if (i < (getHealth() * 20 / getMaxHealth())) {
+                hpBar += "█";
+            } else {
+                hpBar += "░";
+            }
         }
-    }
         return """
             +==============================================+
             |  """ + getName() + " [" + heroClass + "] Level " + level + "\n" +
@@ -55,7 +70,9 @@ public class Hero extends Character {
            "| HP : " + hpBar + " " + getHealth() + "/" + getMaxHealth() + "\n" +
            "| ATK : " + getAttackPower() + "  DEF : " + getDefense() + "\n" +
            "| XP : " + experiencePoints + "\n" +
-           "+==============================================+";
+           "+==============================================+ \n" +
+            "--- " + getName() + "'s Inventory (" + inventory.getSize() + " items) ---\n" +
+            inventory.displaySorted();
     }
 
     @Override
