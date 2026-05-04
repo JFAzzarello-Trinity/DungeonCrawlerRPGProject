@@ -5,7 +5,7 @@ public class Armor extends Item implements Interactable{
     }
 
     @Override
-    public void interact(Hero hero) {
+    public void interact(Hero hero){
         hero.setDefense(hero.getDefense() + getValue());
         System.out.println("🛡 " + hero.getName() + " equips " + getName() + "! DEF +" + getValue());
     }

@@ -80,7 +80,10 @@ public class Room implements Interactable{
            "#============================================#";
     }  
     @Override
-    public void interact(Hero hero){
+    public void interact(Hero hero) throws EmptyRoomException{
+        if (items.isEmpty() && monsters.isEmpty()) {
+            throw new EmptyRoomException(name);
+        }
         this.visited = true;
         System.out.println(this);
         for (int i = 0; i < items.size(); i++) {

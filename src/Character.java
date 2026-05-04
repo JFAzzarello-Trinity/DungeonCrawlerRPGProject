@@ -27,8 +27,10 @@ public abstract class Character {
 
     public void setHealth(int health) {
         if (health < 0) {
-            System.out.println("[WARNING] Health cannot be negative. Value set to 0.");
             this.health = 0;
+            if (this instanceof Hero) {
+                throw new DeadHeroException(this.getName());
+            }
         } else if (health > this.getMaxHealth()) {
             this.health = maxHealth;
         } else {

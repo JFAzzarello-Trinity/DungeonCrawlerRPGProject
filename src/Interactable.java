@@ -1,3 +1,3 @@
 public interface Interactable {
-    void interact(Hero hero);
+    void interact(Hero hero) throws EmptyRoomException;
 }

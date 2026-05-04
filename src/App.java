@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main1(String[] args) throws Exception {
 
         // ==================== SETUP ====================
         Hero hero = new Hero(15, "Warrior", 1, "Jorge", 85, 100, 60, 10);
@@ -139,5 +139,11 @@ public class App {
         // Dungeon map
         System.out.println("\n--- Dungeon Map ---");
         System.out.println(dungeon);
+    }
+
+    public static void main(String [] args) throws Exception{
+        GameEngine engine = new GameEngine();
+        engine.setup(); // creates hero, dungeon, rooms, monsters, items
+        engine.start(); // runs the game loop
     }
 }
