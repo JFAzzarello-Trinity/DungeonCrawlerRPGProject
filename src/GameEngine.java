@@ -53,6 +53,31 @@ public class GameEngine {
         System.out.println("║   ☠   DUNGEON CRAWLER RPG   ☠            ║");
         System.out.println("║      Survive. Loot. Conquer.             ║");
         System.out.println("╚══════════════════════════════════════════╝");
+
+        try {
+            enterRoom("Entrance Hall");
+            enterRoom("Dark Corridor");
+            enterRoom("Dusty Cellar");   // triggers EmptyRoomException
+            goBack();
+            goBack();
+            goBack();
+            goBack();                    // triggers empty stack message
+
+            // Demonstrate InvalidItemException
+            try {
+                hero.useItem(new Weapon("Iron Sword", 15, "A sturdy sword."), "POTION");
+            } catch (InvalidItemException e) {
+                System.out.println("[WRONG ITEM] " + e.getMessage());
+            }
+
+            enterRoom("Boss Chamber");
+
+        } catch (DeadHeroException e) {
+            System.out.println("[HERO FALLEN] " + e.getMessage());
+            System.out.println("Final score: " + score + " points");
+            addScore(score);
+            printGameOver();
+        }
     }
 
     public void enterRoom(String roomName){
@@ -63,6 +88,13 @@ public class GameEngine {
         }
         navigationHistory.push(room);
         System.out.println("> Entering: " + room.getName());
+        try {
+            room.interact(hero);
+            fightMonsters(room);
+            addScore(50);
+        } catch (EmptyRoomException e) {
+            System.out.println("[EMPTY ROOM] " + e.getMessage());
+        }
     }
 
     public void goBack() {
