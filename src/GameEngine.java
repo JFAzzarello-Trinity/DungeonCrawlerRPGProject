@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.Stack;
 public class GameEngine {
     private Hero hero;
@@ -7,9 +8,9 @@ public class GameEngine {
     private int score;
 
     public GameEngine(){
-        this.leaderboard = leaderboard;
+        this.leaderboard = new Leaderboard();
         this.navigationHistory = new Stack<>();
-        this.score = score;
+        this.score = 0;
     }
 
     public void setup() {
@@ -49,35 +50,67 @@ public class GameEngine {
     }
 
     public void start(){
-        System.out.println("╔══════════════════════════════════════════╗");
-        System.out.println("║   ☠   DUNGEON CRAWLER RPG   ☠            ║");
-        System.out.println("║      Survive. Loot. Conquer.             ║");
-        System.out.println("╚══════════════════════════════════════════╝");
+        Scanner scanner = new Scanner(System.in);
 
-        try {
-            enterRoom("Entrance Hall");
-            enterRoom("Dark Corridor");
-            enterRoom("Dusty Cellar");   // triggers EmptyRoomException
-            goBack();
-            goBack();
-            goBack();
-            goBack();                    // triggers empty stack message
+    System.out.println("╔══════════════════════════════════════════╗");
+    System.out.println("║   ☠   DUNGEON CRAWLER RPG   ☠            ║");
+    System.out.println("║      Survive. Loot. Conquer.             ║");
+    System.out.println("╚══════════════════════════════════════════╝");
 
-            // Demonstrate InvalidItemException
-            try {
-                hero.useItem(new Weapon("Iron Sword", 15, "A sturdy sword."), "POTION");
-            } catch (InvalidItemException e) {
-                System.out.println("[WRONG ITEM] " + e.getMessage());
+    System.out.println(hero);
+
+    try {
+        boolean playing = true;
+        while (playing) {
+            System.out.println("\nWhat do you do?");
+            System.out.println("1. Enter a room");
+            System.out.println("2. Go back");
+            System.out.println("3. View dungeon map");
+            System.out.println("4. View stats");
+            System.out.println("5. Quit");
+            System.out.println("6. Use item (wrong type demo)");
+            System.out.println("7. Go back from empty stack demo");
+            System.out.print("> ");
+
+            String choice = scanner.nextLine();
+
+            if (choice.equals("1")) {
+                dungeon.listRooms();
+                System.out.print("Enter room name: ");
+                String roomName = scanner.nextLine();
+                enterRoom(roomName);
+            } else if (choice.equals("2")) {
+                goBack();
+            } else if (choice.equals("3")) {
+                System.out.println(dungeon);
+            } else if (choice.equals("4")) {
+                System.out.println(hero);
+            } else if (choice.equals("5")) {
+                playing = false;
+                System.out.println("You flee the dungeon... coward.");
+            } else if (choice.equals("6")) {
+                try {
+                    hero.useItem(new Weapon("Iron Sword", 15, "A sword."), "POTION");
+                } catch (InvalidItemException e) {
+                    System.out.println("[WRONG ITEM] " + e.getMessage());
+                } catch (EmptyRoomException e){
+                }
+            } else if (choice.equals("7")) {
+                // clear stack to demo empty stack message
+                navigationHistory.clear();
+                goBack();
             }
-
-            enterRoom("Boss Chamber");
-
-        } catch (DeadHeroException e) {
-            System.out.println("[HERO FALLEN] " + e.getMessage());
-            System.out.println("Final score: " + score + " points");
-            addScore(score);
-            printGameOver();
+            else {
+                System.out.println("Invalid choice, try again.");
+            }
         }
+        } catch (DeadHeroException e) {
+        System.out.println("[HERO FALLEN] " + e.getMessage());
+        System.out.println("Final score: " + score + " points");
+        printGameOver();
+    }
+
+    scanner.close();
     }
 
     public void enterRoom(String roomName){
@@ -90,10 +123,14 @@ public class GameEngine {
         System.out.println("> Entering: " + room.getName());
         try {
             room.interact(hero);
+            // Add items to hero inventory
+            for (int i = 0; i < room.getItems().size(); i++) {
+            hero.getInventory().addItem(room.getItems().get(i));
+            }
             fightMonsters(room);
             addScore(50);
         } catch (EmptyRoomException e) {
-            System.out.println("[EMPTY ROOM] " + e.getMessage());
+        System.out.println("[EMPTY ROOM] " + e.getMessage());
         }
     }
 

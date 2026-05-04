@@ -88,7 +88,7 @@ public class Hero extends Character {
         System.out.println("The monster took " + damage + " damage!");
     }
     
-    public void useItem(Item item, String expectedType) throws InvalidItemException {
+    public void useItem(Item item, String expectedType) throws InvalidItemException, EmptyRoomException{
         if (!item.getItemType().equals(expectedType)) {
             throw new InvalidItemException(item.getName(), expectedType);
         }
